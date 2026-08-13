@@ -342,7 +342,7 @@ body{
 <script src="https://scripts.converteai.net/2a244af4-f6dc-4b19-94ad-14353936036e/players/6a62781f97841b6683ee33d3/v4/player.js" async></script>
 
 <script>
-const PITCH_TIME = 1511.023;
+const PITCH_TIME_MS = 1511023;
 let pitchRevealed = false;
 
 function revealPitch() {
@@ -352,29 +352,7 @@ function revealPitch() {
   document.querySelectorAll('.press-logos').forEach(el => el.style.display = 'none');
 }
 
-window.addEventListener('message', function(e) {
-  try {
-    const d = typeof e.data === 'string' ? JSON.parse(e.data) : e.data;
-    if (d && d.currentTime >= PITCH_TIME) revealPitch();
-  } catch(_) {}
-}, { passive: true });
-
-document.addEventListener('DOMContentLoaded', function() {
-  const p = document.getElementById('vid-6a62781f97841b6683ee33d3');
-  if (!p) return;
-  ['timeupdate','vturbTimeUpdate','vsl:timeupdate'].forEach(ev => {
-    p.addEventListener(ev, function(e) {
-      const t = e.detail && (e.detail.currentTime || e.detail.time);
-      if (t && t >= PITCH_TIME) revealPitch();
-    }, { passive: true });
-  });
-  const poll = setInterval(() => {
-    try {
-      const t = p.currentTime || (p._player && p._player.currentTime);
-      if (t && t >= PITCH_TIME) { revealPitch(); clearInterval(poll); }
-    } catch(_) {}
-  }, 1000);
-});
+setTimeout(revealPitch, PITCH_TIME_MS);
 </script>
 
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v4513226cdae34746b4dedf0b4dfa099e1781791509496" integrity="sha512-ZE9pZaUXND66v380QUtch/5sE9tPFh2zg45pR2PB0CVkCtOREv2AJKkSidISWkysEuQ0EH8faUU5du78bx87UQ==" data-cf-beacon='{"version":"2024.11.0","token":"25354667d4d24fb797630d4177e6ea9e","r":1}' crossorigin="anonymous"></script>
